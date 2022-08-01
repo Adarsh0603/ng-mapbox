@@ -102,6 +102,40 @@
           }
         }
       }
+    },
+    "ng-mapbox": {
+      "projectType": "library",
+      "root": "projects/ng-mapbox",
+      "sourceRoot": "projects/ng-mapbox/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ng-mapbox/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-mapbox/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng-mapbox/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-mapbox/src/test.ts",
+            "tsConfig": "projects/ng-mapbox/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-mapbox/karma.conf.js"
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": "ebb3bc46-c623-4687-a6cb-1da5f01680b8"
   }
 }

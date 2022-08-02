@@ -1,0 +1,11 @@
+<ngmb-map [center]="[-96,30]" [zoom]="7"
+    [style]="'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ'">
+
+    <ngmb-marker *ngFor="let loc of (locs$|async)" [lngLat]="[loc.geocode.Longitude,loc.geocode.Latitude]"
+        [zoomOnClick]="true" [zoomAmount]="14">
+        <div class="custom-marker">
+            <div class="label">{{loc.name}}</div>
+        </div>
+    </ngmb-marker>
+
+</ngmb-map>

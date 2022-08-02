@@ -11,6 +11,8 @@ import { ShowControlsComponent } from './demos/show-controls/show-controls.compo
 import { AutoZoomComponent } from './demos/auto-zoom/auto-zoom.component';
 import { appReducer } from './demos/store/demo.reducer';
 import { SpecificPinComponent } from './demos/specific-pin/specific-pin.component';
+import { CustomMarkerComponent } from './demos/custom-marker/custom-marker.component';
+import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +22,8 @@ import { SpecificPinComponent } from './demos/specific-pin/specific-pin.componen
     ShowControlsComponent,
     AutoZoomComponent,
     SpecificPinComponent,
+    CustomMarkerComponent,
+    ChangeOnClickComponent,
   ],
   imports: [
     BrowserModule,

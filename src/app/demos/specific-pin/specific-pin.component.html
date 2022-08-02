@@ -2,7 +2,8 @@
     [style]="'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ'">
 
     <ngmb-marker *ngFor="let loc of (locs$|async)" [lngLat]="[loc.geocode.Longitude,loc.geocode.Latitude]"
-        [color]="'#ECB390'" [draggable]="true" [zoomOnClick]="true" [zoomAmount]="14" (onClick)="printDetails(loc)">
+        [color]="'#ECB390'" [draggable]="true" [zoomOnClick]="true" [zoomAmount]="14"
+        (onClick)="printDetails($event,loc)">
     </ngmb-marker>
 
 </ngmb-map>

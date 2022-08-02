@@ -1,11 +1,14 @@
-import { LngLatLike, MapOptions, MarkerOptions } from 'maplibre-gl';
+import { LngLatLike, Marker, MarkerOptions } from 'maplibre-gl';
 
 export interface NgMarkerOptions {
-  draggable?: MarkerOptions['draggable'];
-  color?: MarkerOptions['color'];
-  clickTolerance?: MarkerOptions['clickTolerance'];
-  anchor?: MarkerOptions['anchor'];
-  lngLat: LngLatLike;
+  mapOptions: {
+    draggable?: MarkerOptions['draggable'];
+    color?: MarkerOptions['color'];
+    clickTolerance?: MarkerOptions['clickTolerance'];
+    anchor?: MarkerOptions['anchor'];
+    lngLat: LngLatLike;
+    element?: HTMLElement;
+  };
 }
 
 export interface NgMapControls {
@@ -16,7 +19,6 @@ export interface NgMapControls {
   scaleControl?: boolean;
 }
 
-export interface Coordinates {
-  lng: number;
-  lat: number;
+export interface NgmbMarker {
+  marker: Marker | undefined;
 }

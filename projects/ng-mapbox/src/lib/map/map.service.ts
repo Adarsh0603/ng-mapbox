@@ -10,15 +10,13 @@ import {
   AttributionControl,
   NavigationControl,
   FullscreenControl,
-  LngLatLike,
-  LngLat,
 } from 'maplibre-gl';
 import { Observable } from 'rxjs';
 import * as NgmbActions from '../state/ngmb.actions';
 import {
-  Coordinates,
   NgMapControls,
   NgMarkerOptions,
+  NgmbMarker,
 } from '../types/ngmb.types';
 
 @Injectable({
@@ -66,8 +64,14 @@ export class MapService {
   }
 
   createMarker(options: NgMarkerOptions) {
-    var marker = new Marker(options).setLngLat(options.lngLat).addTo(this.map);
+    var mapOptions = options.mapOptions;
+
+    var marker = new Marker(mapOptions)
+      .setLngLat(mapOptions.lngLat)
+      .addTo(this.map);
+
     this.markers.push(marker);
+
     this.bounds.extend(marker.getLngLat());
 
     this.showAllPins();
@@ -75,28 +79,24 @@ export class MapService {
     return marker;
   }
 
-  flyTo(marker: Marker, zoomAmount: number) {
+  flyTo(ngmbMarker: NgmbMarker, zoomAmount: number) {
     this.map.flyTo({
-      center: marker.getLngLat(),
+      center: ngmbMarker.marker!.getLngLat(),
       zoom: zoomAmount ? zoomAmount : this.map.getZoom() + 3,
     });
   }
 
+  // Zoom Out to fit bounds
   showAllPins() {
     this.map.fitBounds(this.bounds, { padding: 200, duration: 1000 });
   }
 
-  zoomToPin(markerCoordinates: Coordinates, zoomAmount: number) {
-    var currentMarker = this.markers.find((marker) => {
-      var coords = marker.getLngLat();
-      return (
-        coords.lng == markerCoordinates.lng &&
-        coords.lat == markerCoordinates.lat
-      );
-    });
-    if (currentMarker) this.flyTo(currentMarker, zoomAmount);
+  // Programmatically zoom to a pin.
+  zoomToPin(ngmbMarker: NgmbMarker, zoomAmount: number) {
+    this.flyTo(ngmbMarker, zoomAmount);
   }
 
+  // Clear all map and marker data.
   removeMap() {
     this.removeMarkers();
     this.store.dispatch(NgmbActions.mapCleared());

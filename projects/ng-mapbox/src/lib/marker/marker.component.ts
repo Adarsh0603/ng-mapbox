@@ -1,16 +1,18 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { LngLatLike, Marker, MarkerOptions } from 'maplibre-gl';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
-import { NgMarkerOptions } from '../types/ngmb.types';
+import { NgMarkerOptions, NgmbMarker } from '../types/ngmb.types';
 
 @Component({
   selector: 'ngmb-marker',
@@ -26,9 +28,12 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('zoomOnClick') zoomOnClick?: boolean = false;
   @Input('zoomAmount') zoomAmount?: number;
 
-  @Output() onClick = new EventEmitter();
+  @ViewChild('customMarker', { static: true })
+  customMarkerEl: ElementRef | null = null;
 
-  marker?: Marker;
+  @Output() onClick = new EventEmitter<NgmbMarker>();
+
+  ngmbMarker?: NgmbMarker;
 
   options!: NgMarkerOptions;
   sub!: Subscription;
@@ -37,30 +42,38 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.options = {
-      draggable: this.draggable,
-      color: this.color,
-      anchor: this.anchor,
-      clickTolerance: this.clickTolerance,
-      lngLat: this.lngLat,
+      mapOptions: {
+        draggable: this.draggable,
+        color: this.color,
+        anchor: this.anchor,
+        clickTolerance: this.clickTolerance,
+        lngLat: this.lngLat,
+      },
     };
+    if (this.customMarkerEl?.nativeElement.innerHTML != '') {
+      this.options.mapOptions.element = this.customMarkerEl?.nativeElement;
+    }
   }
 
   ngAfterViewInit(): void {
     // Create a marker after the map is generated.
+    this.ngmbMarker = {
+      marker: undefined,
+    };
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      this.marker = this.mapService.createMarker(this.options);
+      this.ngmbMarker!.marker = this.mapService.createMarker(this.options);
 
-      if (this.zoomOnClick)
-        this.marker.getElement().addEventListener('click', () => {
-          this.onClick.emit();
-          this.mapService.flyTo(this.marker!, this.zoomAmount!!);
-        });
+      this.ngmbMarker!.marker.getElement().addEventListener('click', () => {
+        this.onClick.emit(this.ngmbMarker);
+        if (this.zoomOnClick)
+          this.mapService.flyTo(this.ngmbMarker!, this.zoomAmount!!);
+      });
     });
   }
   ngOnDestroy(): void {
-    this.marker?.remove();
-    this.marker = undefined;
+    this.ngmbMarker!.marker?.remove();
+    this.ngmbMarker!.marker = undefined;
     this.sub.unsubscribe();
   }
 }

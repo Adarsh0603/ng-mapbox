@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MapService } from 'ng-mapbox';
 import { Observable } from 'rxjs';
 import { AppState } from '../store/demo.reducer';
 import { selectFewLocations } from '../store/demo.selectors';
 
 @Component({
-  selector: 'app-load-pins',
-  templateUrl: './load-pins.component.html',
-  styleUrls: ['./load-pins.component.scss'],
+  selector: 'app-custom-marker',
+  templateUrl: './custom-marker.component.html',
+  styleUrls: ['./custom-marker.component.scss'],
 })
-export class LoadPinsComponent implements OnInit {
+export class CustomMarkerComponent implements OnInit {
   locs$!: Observable<any>;
 
   constructor(private store: Store<AppState>) {}

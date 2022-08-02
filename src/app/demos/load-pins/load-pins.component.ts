@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { MapService } from 'ng-mapbox';
-import { data } from '../features3';
+import { Observable } from 'rxjs';
+import { AppState } from '../store/demo.reducer';
+import { selectFewLocations } from '../store/demo.selectors';
 
 @Component({
   selector: 'app-load-pins',
@@ -8,9 +11,11 @@ import { data } from '../features3';
   styleUrls: ['./load-pins.component.scss'],
 })
 export class LoadPinsComponent implements OnInit {
-  constructor(private mapService: MapService) {}
-  locs: any[] = [];
+  locs$!: Observable<any>;
+
+  constructor(private mapService: MapService, private store: Store<AppState>) {}
+
   ngOnInit(): void {
-    this.locs = data.records;
+    this.locs$ = this.store.select(selectFewLocations);
   }
 }

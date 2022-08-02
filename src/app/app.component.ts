@@ -12,6 +12,10 @@ export class AppComponent implements OnInit {
   routes: any[] = [
     { route: '', text: 'Display Map' },
     { route: '/loadpins', text: 'Load Pins' },
+    { route: '/specific-pin', text: 'Zoom To Specific Pin' },
+
+    { route: '/auto-zoom', text: 'Auto Zoom' },
+
     { route: '/locate-user', text: 'Locate User' },
     { route: '/show-controls', text: 'Show Map Controls' },
   ];

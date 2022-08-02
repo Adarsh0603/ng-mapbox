@@ -1,0 +1,15 @@
+<ngmb-map [center]="[-96,30]" [zoom]="7"
+    [style]="'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ'">
+
+    <ngmb-marker *ngFor="let loc of (locs$|async)" [lngLat]="[loc.geocode.Longitude,loc.geocode.Latitude]"
+        [color]="'#ECB390'" [draggable]="true" [zoomOnClick]="true" [zoomAmount]="14" (onClick)="printDetails(loc)">
+    </ngmb-marker>
+
+</ngmb-map>
+
+<div id="pin-details" *ngIf="location" (click)="zoomTo()">
+    <span><b>{{location.name}}</b></span>
+    <br>
+    <span>{{location.address}}</span>
+
+</div>

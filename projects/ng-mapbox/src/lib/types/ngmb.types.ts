@@ -15,3 +15,8 @@ export interface NgMapControls {
   attributionControl?: boolean;
   scaleControl?: boolean;
 }
+
+export interface Coordinates {
+  lng: number;
+  lat: number;
+}

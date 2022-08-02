@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
@@ -22,9 +23,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('anchor') anchor?: MarkerOptions['anchor'];
   @Input('clickTolerance') clickTolerance?: MarkerOptions['clickTolerance'];
   @Input('lngLat') lngLat!: LngLatLike;
-  @Input('zoomonclick') zoomOnClick?: boolean = false;
+  @Input('zoomOnClick') zoomOnClick?: boolean = false;
+  @Input('zoomAmount') zoomAmount?: number;
 
-  @Output('onClick')
+  @Output() onClick = new EventEmitter();
+
   marker?: Marker;
 
   options!: NgMarkerOptions;
@@ -43,15 +46,15 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    // Create a marker after the map is generated.
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      // Create a marker after the map is generated.
       this.marker = this.mapService.createMarker(this.options);
-      this.mapService.markers.push(this.marker);
-      this.mapService.showAllPins();
+
       if (this.zoomOnClick)
         this.marker.getElement().addEventListener('click', () => {
-          this.mapService.flyTo(this.marker!);
+          this.onClick.emit();
+          this.mapService.flyTo(this.marker!, this.zoomAmount!!);
         });
     });
   }

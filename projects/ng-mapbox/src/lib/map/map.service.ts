@@ -12,7 +12,9 @@ import {
   FullscreenControl,
 } from 'maplibre-gl';
 import { Observable } from 'rxjs';
+import { geoJsonData } from '../../features2';
 import * as NgmbActions from '../state/ngmb.actions';
+import { selectMap } from '../state/ngmb.selectors';
 import {
   NgMapControls,
   NgMarkerOptions,
@@ -23,7 +25,7 @@ import {
   providedIn: 'root',
 })
 export class MapService {
-  map!: Map;
+  map$!: Observable<Map | undefined>;
   mapGenerated$!: Observable<any>;
   markers: Marker[] = [];
   bounds!: LngLatBounds;
@@ -31,36 +33,43 @@ export class MapService {
   constructor(private store: Store) {}
 
   generateMap(mapOptions: MapOptions, ngMapControls: NgMapControls) {
-    this.map = new Map(mapOptions);
+    this.store.dispatch(NgmbActions.createMap(mapOptions));
+    this.map$ = this.store.select(selectMap);
     this.bounds = new LngLatBounds();
     this.store.dispatch(NgmbActions.mapGenerated());
+
+    // this.map.on('load', () => {
+    //   this.map.addSource('polygons', {
+    //     type: 'geojson',
+    //     data: geoJsonData,
+    //   });
+    //   this.map.addLayer({
+    //     id: 'Polygon-fills',
+    //     type: 'fill',
+    //     source: 'polygons',
+    //     layout: {},
+    //     paint: {
+    //       'fill-color': '#ECB390',
+    //       'fill-opacity': 0.8,
+    //     },
+    //   });
+    //   this.map.addLayer({
+    //     id: 'Polygon-borders',
+    //     type: 'line',
+    //     source: 'polygons',
+    //     layout: {},
+    //     paint: {
+    //       'line-color': 'blue',
+    //       'line-width': 2,
+    //     },
+    //   });
+    // });
     this.addControls(ngMapControls);
   }
 
   // Add Built-in map controls
   addControls(ngMapControls: NgMapControls) {
-    if (ngMapControls.geoLocateControl) {
-      this.map.addControl(
-        new GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-        })
-      );
-    }
-    if (ngMapControls.fullScreenControl) {
-      this.map.addControl(new FullscreenControl({}));
-    }
-    if (ngMapControls.navigationControl) {
-      this.map.addControl(new NavigationControl({}));
-    }
-    if (ngMapControls.scaleControl) {
-      this.map.addControl(new ScaleControl({}));
-    }
-    if (ngMapControls.attributionControl) {
-      this.map.addControl(new AttributionControl());
-    }
+    this.store.dispatch(NgmbActions.addControls(ngMapControls));
   }
 
   createMarker(options: NgMarkerOptions) {

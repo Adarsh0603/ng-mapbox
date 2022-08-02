@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { NgmbMarker } from 'dist/ng-mapbox/lib/types/ngmb.types';
-import { Marker } from 'maplibre-gl';
 import { MapService } from 'ng-mapbox';
 import { Observable } from 'rxjs';
 import { AppState } from '../store/demo.reducer';

@@ -13,6 +13,7 @@ import { appReducer } from './demos/store/demo.reducer';
 import { SpecificPinComponent } from './demos/specific-pin/specific-pin.component';
 import { CustomMarkerComponent } from './demos/custom-marker/custom-marker.component';
 import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.component';
+import { CreateLayerComponent } from './demos/create-layer/create-layer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +25,7 @@ import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.
     SpecificPinComponent,
     CustomMarkerComponent,
     ChangeOnClickComponent,
+    CreateLayerComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,10 +11,9 @@ import {
   NavigationControl,
   FullscreenControl,
 } from 'maplibre-gl';
-import { Observable } from 'rxjs';
-import { geoJsonData } from '../../features2';
+import { map, Observable } from 'rxjs';
 import * as NgmbActions from '../state/ngmb.actions';
-import { selectMap } from '../state/ngmb.selectors';
+import { selectAllLayers } from '../state/ngmb.selectors';
 import {
   NgMapControls,
   NgMarkerOptions,
@@ -25,7 +24,7 @@ import {
   providedIn: 'root',
 })
 export class MapService {
-  map$!: Observable<Map | undefined>;
+  map!: Map;
   mapGenerated$!: Observable<any>;
   markers: Marker[] = [];
   bounds!: LngLatBounds;
@@ -33,43 +32,37 @@ export class MapService {
   constructor(private store: Store) {}
 
   generateMap(mapOptions: MapOptions, ngMapControls: NgMapControls) {
-    this.store.dispatch(NgmbActions.createMap(mapOptions));
-    this.map$ = this.store.select(selectMap);
+    this.map = new Map(mapOptions);
     this.bounds = new LngLatBounds();
     this.store.dispatch(NgmbActions.mapGenerated());
 
-    // this.map.on('load', () => {
-    //   this.map.addSource('polygons', {
-    //     type: 'geojson',
-    //     data: geoJsonData,
-    //   });
-    //   this.map.addLayer({
-    //     id: 'Polygon-fills',
-    //     type: 'fill',
-    //     source: 'polygons',
-    //     layout: {},
-    //     paint: {
-    //       'fill-color': '#ECB390',
-    //       'fill-opacity': 0.8,
-    //     },
-    //   });
-    //   this.map.addLayer({
-    //     id: 'Polygon-borders',
-    //     type: 'line',
-    //     source: 'polygons',
-    //     layout: {},
-    //     paint: {
-    //       'line-color': 'blue',
-    //       'line-width': 2,
-    //     },
-    //   });
-    // });
     this.addControls(ngMapControls);
   }
 
   // Add Built-in map controls
   addControls(ngMapControls: NgMapControls) {
-    this.store.dispatch(NgmbActions.addControls(ngMapControls));
+    if (ngMapControls.geoLocateControl) {
+      this.map.addControl(
+        new GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+        })
+      );
+    }
+    if (ngMapControls.fullScreenControl) {
+      this.map.addControl(new FullscreenControl({}));
+    }
+    if (ngMapControls.navigationControl) {
+      this.map.addControl(new NavigationControl({}));
+    }
+    if (ngMapControls.scaleControl) {
+      this.map.addControl(new ScaleControl({}));
+    }
+    if (ngMapControls.attributionControl) {
+      this.map.addControl(new AttributionControl());
+    }
   }
 
   createMarker(options: NgMarkerOptions) {
@@ -86,6 +79,30 @@ export class MapService {
     this.showAllPins();
 
     return marker;
+  }
+
+  createSource(id: string, type: any, data: any) {
+    this.map.on('load', () => {
+      if (this.map.getSource(id)) return;
+      this.map.addSource(id, {
+        type: type,
+        data: data,
+      });
+    });
+  }
+
+  createLayer(id: string, type: any, source: string, layout: any, paint: any) {
+    this.map.on('load', () => {
+      if (this.map.getLayer(id)) return;
+      this.map.addLayer({
+        id: id,
+        type: type,
+        source: source,
+        layout: {},
+        paint: paint,
+      });
+      this.store.dispatch(NgmbActions.layerAdded({ id: id }));
+    });
   }
 
   flyTo(ngmbMarker: NgmbMarker, zoomAmount: number) {
@@ -108,12 +125,20 @@ export class MapService {
   // Clear all map and marker data.
   removeMap() {
     this.removeMarkers();
-    this.store.dispatch(NgmbActions.mapCleared());
-
+    this.removeLayers();
     this.map.remove();
+    this.store.dispatch(NgmbActions.mapCleared());
   }
   removeMarkers() {
     this.markers.forEach((marker) => marker.remove());
     this.markers = [];
+  }
+  removeLayers() {
+    this.store.select(selectAllLayers).pipe(
+      map((values) => {
+        values.forEach((value) => this.map.removeLayer(value));
+      })
+    );
+    this.store.dispatch(NgmbActions.removeAllLayers());
   }
 }

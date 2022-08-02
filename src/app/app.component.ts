@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
     { route: '/auto-zoom', text: 'Auto Zoom' },
     { route: '/custom-marker', text: 'Custom Marker' },
     { route: '/change-on-click', text: 'Change/Replace Pin on Click' },
+    { route: '/create-layer', text: 'Create Layer' },
     { route: '/locate-user', text: 'Locate User' },
     { route: '/show-controls', text: 'Show Map Controls' },
   ];

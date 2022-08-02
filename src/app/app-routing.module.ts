@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AutoZoomComponent } from './demos/auto-zoom/auto-zoom.component';
 import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.component';
+import { CreateLayerComponent } from './demos/create-layer/create-layer.component';
 import { CustomMarkerComponent } from './demos/custom-marker/custom-marker.component';
 import { DisplaymapComponent } from './demos/displaymap.component';
 import { LoadPinsComponent } from './demos/load-pins/load-pins.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'specific-pin', component: SpecificPinComponent },
   { path: 'custom-marker', component: CustomMarkerComponent },
   { path: 'change-on-click', component: ChangeOnClickComponent },
+  { path: 'create-layer', component: CreateLayerComponent },
 ];
 
 @NgModule({

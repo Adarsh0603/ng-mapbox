@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
-import { SourceType } from '../types/ngmb.types';
+import { NgmbSourceOptions } from '../types/ngmb.types';
 
 @Component({
   selector: 'ngmb-source',
@@ -9,17 +9,23 @@ import { SourceType } from '../types/ngmb.types';
   styleUrls: ['./sources.component.css'],
 })
 export class SourcesComponent implements OnInit, AfterViewInit {
-  @Input('id') id: string = '';
-  @Input('type') type?: any;
+  @Input('id') id: NgmbSourceOptions['id'] = null;
+  @Input('type') type: NgmbSourceOptions['type'] = null;
 
-  @Input('data') data?: any;
+  @Input('data') data: NgmbSourceOptions['data'] = null;
 
+  options!: NgmbSourceOptions;
   sub?: Subscription;
   constructor(private mapService: MapService) {}
   ngAfterViewInit(): void {
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      this.mapService.createSource(this.id, this.type, this.data);
+      this.options = { id: this.id, type: this.type, data: this.data };
+      try {
+        this.mapService.createSource(this.options);
+      } catch (err) {
+        throw err;
+      }
     });
   }
 

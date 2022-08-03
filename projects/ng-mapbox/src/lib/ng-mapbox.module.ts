@@ -6,6 +6,7 @@ import { MarkerComponent } from './marker/marker.component';
 import { DraggableDirective } from './directives/draggable.directive';
 import { LayersComponent } from './layers/layers.component';
 import { SourcesComponent } from './sources/sources.component';
+import { PopupComponent } from './popup/popup.component';
 @NgModule({
   declarations: [
     MapComponent,
@@ -13,8 +14,15 @@ import { SourcesComponent } from './sources/sources.component';
     DraggableDirective,
     LayersComponent,
     SourcesComponent,
+    PopupComponent,
   ],
   imports: [StoreModule.forFeature(ngmbFeatureKey, ngmbReducer)],
-  exports: [MapComponent, MarkerComponent, LayersComponent, SourcesComponent],
+  exports: [
+    MapComponent,
+    MarkerComponent,
+    LayersComponent,
+    SourcesComponent,
+    PopupComponent,
+  ],
 })
 export class NgMapboxModule {}

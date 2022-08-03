@@ -10,7 +10,7 @@ import {
 import { Store } from '@ngrx/store';
 import { MapOptions } from 'maplibre-gl';
 import { selectMapGenerated } from '../state/ngmb.selectors';
-import { NgMapControls } from '../types/ngmb.types';
+import { NgmbMapControls } from '../types/ngmb.types';
 import { MapService } from './map.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('scaleControl') scaleControl: boolean = false;
 
   mapOptions!: MapOptions;
-  ngMapControls!: NgMapControls;
+  ngMapControls!: NgmbMapControls;
   generated: boolean = false;
 
   constructor(private mapService: MapService, private store: Store) {}

@@ -6,6 +6,13 @@
         (onClick)="printDetails($event,loc)">
     </ngmb-marker>
 
+    <ngmb-marker #myMarker [lngLat]="[-96,30]" color="#000">
+
+    </ngmb-marker>
+    <ngmb-popup>
+        <h1 style="background-color: blue; color:white">{{myMarker.color}}</h1>
+    </ngmb-popup>
+
 </ngmb-map>
 
 <div id="pin-details" *ngIf="location" (click)="zoomTo()">

@@ -1,8 +1,8 @@
-<ngmb-map [center]="[-96,30]" [zoom]="7"
-    [style]="'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ'">
+<ngmb-map [center]="[-96,30]" [zoom]="4"
+  [style]="'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ'">
 
-    <ngmb-source [id]="'polygons'" [data]="(geoJson$|async)" [type]="'geojson'"></ngmb-source>
-    <ngmb-layer [id]="'DemoLayer'" [source]="'polygons'" [type]="layerType" [paint]="{
+  <ngmb-source [id]="'polygons'" [data]="(geoJson$|async)" [type]="'geojson'"></ngmb-source>
+  <ngmb-layer [id]="'DemoLayer'" [source]="'polygons'" [type]="'fill'" [paint]="{
         'fill-color': '#627BC1',
         'fill-opacity': 0.5
       }"></ngmb-layer>

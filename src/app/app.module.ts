@@ -29,6 +29,7 @@ import { CreateLayerComponent } from './demos/create-layer/create-layer.componen
   ],
   imports: [
     BrowserModule,
+
     AppRoutingModule,
     NgMapboxModule,
     StoreModule.forRoot({ appReducer: appReducer }),

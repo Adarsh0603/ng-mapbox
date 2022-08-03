@@ -1,12 +1,22 @@
+import { EventEmitter } from '@angular/core';
 import {
+  CircleStyleLayer,
+  FillExtrusionStyleLayer,
+  FillStyleLayer,
   HeatmapStyleLayer,
-  LayerFeatureStates,
+  HillshadeStyleLayer,
+  LineStyleLayer,
   LngLatLike,
   Marker,
   MarkerOptions,
+  Popup,
+  PopupOptions,
+  SymbolStyleLayer,
+  TypedStyleLayer,
 } from 'maplibre-gl';
+import { MarkerComponent } from '../marker/marker.component';
 
-export interface NgMarkerOptions {
+export interface NgmbMarkerOptions {
   mapOptions: {
     draggable?: MarkerOptions['draggable'];
     color?: MarkerOptions['color'];
@@ -17,7 +27,7 @@ export interface NgMarkerOptions {
   };
 }
 
-export interface NgMapControls {
+export interface NgmbMapControls {
   geoLocateControl?: boolean;
   navigationControl?: boolean;
   fullScreenControl?: boolean;
@@ -29,28 +39,59 @@ export interface NgmbMarker {
   marker: Marker | undefined;
 }
 
-export enum LayerType {
-  LINE = '"line"',
-  FILL = '"fill"',
-  TYPED = '"typed"',
-  CIRCLE = '"circle"',
-  SYMBOL = '"symbol"',
-  HEATMAP = '"heatmap"',
-  CUSTOM = '"custom"',
-  FILL_EXTRUSION = '"fill-extrusion"',
-  HILLSHADE = '"hillshade"',
-  RASTER = '"raster"',
+export interface NgmbPopup {
+  popup: Popup | undefined;
 }
 
-export enum SourceType {
-  GEOJSON = '"geojson"',
-  IMAGE = '"image"',
-  RASTER = '"raster"',
-  RASTER_DEM = '"raster-dem"',
-  VECTOR = '"vector"',
-  VIDEO = '"video"',
+export interface NgmbPopupOptions {
+  markerComponent?: MarkerComponent;
+  lngLat?: LngLatLike;
+  options: PopupOptions;
+  events?: {
+    open?: EventEmitter<void>;
+    close?: EventEmitter<void>;
+    popupOpen?: EventEmitter<void>;
+    popupClose?: EventEmitter<void>;
+  };
+  html?: HTMLElement;
 }
 
-// export interface NgmbLayer{
-//   layer:
-// }
+export interface NgmbLayerOptions {
+  id: string | null;
+  type:
+    | 'background'
+    | 'fill'
+    | 'line'
+    | 'symbol'
+    | 'raster'
+    | 'circle'
+    | 'fill-extrusion'
+    | 'heatmap'
+    | 'hillshade'
+    | null;
+  source: string | null;
+  layout:
+    | FillStyleLayer['layout']
+    | LineStyleLayer['layout']
+    | TypedStyleLayer['layout']
+    | CircleStyleLayer['layout']
+    | SymbolStyleLayer['layout']
+    | HeatmapStyleLayer['layout']
+    | FillExtrusionStyleLayer['layout']
+    | HillshadeStyleLayer['layout']
+    | any;
+  paint: any;
+}
+
+export interface NgmbSourceOptions {
+  id: string | null;
+  type:
+    | 'geojson'
+    | 'image'
+    | 'raster'
+    | 'raster-dem'
+    | 'vector'
+    | 'video'
+    | null;
+  data: any;
+}

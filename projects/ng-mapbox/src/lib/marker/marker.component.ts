@@ -12,7 +12,7 @@ import {
 import { LngLatLike, Marker, MarkerOptions } from 'maplibre-gl';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
-import { NgMarkerOptions, NgmbMarker } from '../types/ngmb.types';
+import { NgmbMarkerOptions, NgmbMarker } from '../types/ngmb.types';
 
 @Component({
   selector: 'ngmb-marker',
@@ -35,7 +35,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngmbMarker?: NgmbMarker;
 
-  options!: NgMarkerOptions;
+  options!: NgmbMarkerOptions;
   sub!: Subscription;
 
   constructor(private mapService: MapService) {}

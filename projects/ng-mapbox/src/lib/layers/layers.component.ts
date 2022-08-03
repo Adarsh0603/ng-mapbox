@@ -1,66 +1,46 @@
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import {
-  CirclePaintProps,
   CircleStyleLayer,
-  FillExtrusionPaintProps,
   FillExtrusionStyleLayer,
-  FillPaintProps,
   FillStyleLayer,
-  HeatmapPaintProps,
   HeatmapStyleLayer,
-  HillshadePaintProps,
   HillshadeStyleLayer,
-  LinePaintProps,
   LineStyleLayer,
-  SymbolPaintProps,
   SymbolStyleLayer,
   TypedStyleLayer,
 } from 'maplibre-gl';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
-import { LayerType } from '../types/ngmb.types';
+import { NgmbLayerOptions } from '../types/ngmb.types';
 
 @Component({
   selector: 'ngmb-layer',
   templateUrl: './layers.component.html',
   styleUrls: ['./layers.component.css'],
 })
-export class LayersComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LayersComponent implements AfterViewInit, OnDestroy {
   constructor(private mapService: MapService) {}
 
-  @Input('id') id: string = '';
-  @Input('type') type?: LayerType;
+  @Input('id') id: NgmbLayerOptions['id'] = null;
+  @Input('type') type: NgmbLayerOptions['type'] = null;
 
-  @Input('source') source: string = '';
-  @Input('layout') layout?:
-    | FillStyleLayer['layout']
-    | LineStyleLayer['layout']
-    | TypedStyleLayer['layout']
-    | CircleStyleLayer['layout']
-    | SymbolStyleLayer['layout']
-    | HeatmapStyleLayer['layout']
-    | FillExtrusionStyleLayer['layout']
-    | HillshadeStyleLayer['layout'];
-  @Input('paint') paint?: any;
+  @Input('source') source: NgmbLayerOptions['source'] = null;
+  @Input('layout') layout: NgmbLayerOptions['layout'] = null;
+  @Input('paint') paint?: NgmbLayerOptions['paint'];
 
   sub!: Subscription;
-  ngOnInit(): void {}
+
   ngAfterViewInit(): void {
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      this.mapService.createLayer(
-        this.id,
-        this.type,
-        this.source,
-        this.layout,
-        this.paint
-      );
+      console.log(this.id, this.type, this.source, this.layout, this.paint);
+      this.mapService.createLayer({
+        id: this.id,
+        type: this.type,
+        source: this.source,
+        layout: this.layout,
+        paint: this.paint,
+      });
     });
   }
 

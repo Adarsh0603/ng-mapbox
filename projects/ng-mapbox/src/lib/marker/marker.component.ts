@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { LngLatLike, Marker, MarkerOptions } from 'maplibre-gl';
+import { LngLatLike, MarkerOptions } from 'maplibre-gl';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
 import { NgmbMarkerOptions, NgmbMarker } from '../types/ngmb.types';
@@ -27,6 +27,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('lngLat') lngLat!: LngLatLike;
   @Input('zoomOnClick') zoomOnClick?: boolean = false;
   @Input('zoomAmount') zoomAmount?: number;
+  @Input('zoomToFit') zoomToFit: boolean = false;
 
   @ViewChild('customMarker', { static: true })
   customMarkerEl: ElementRef | null = null;
@@ -42,16 +43,17 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.options = {
-      mapOptions: {
+      markerOptions: {
         draggable: this.draggable,
         color: this.color,
         anchor: this.anchor,
         clickTolerance: this.clickTolerance,
         lngLat: this.lngLat,
       },
+      zoomToFit: this.zoomToFit,
     };
     if (this.customMarkerEl?.nativeElement.innerHTML != '') {
-      this.options.mapOptions.element = this.customMarkerEl?.nativeElement;
+      this.options.markerOptions.element = this.customMarkerEl?.nativeElement;
     }
   }
 

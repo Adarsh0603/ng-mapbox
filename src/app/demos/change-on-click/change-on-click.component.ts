@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NgmbMarker } from 'dist/ng-mapbox/lib/types/ngmb.types';
+import { MapService, NgmbMarker } from 'ng-mapbox';
 import { Observable } from 'rxjs';
 import { AppState } from '../store/demo.reducer';
 import { selectFewLocations } from '../store/demo.selectors';
@@ -13,17 +13,13 @@ import { selectFewLocations } from '../store/demo.selectors';
 export class ChangeOnClickComponent implements OnInit {
   locs$!: Observable<any>;
   selected: boolean = false;
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private mapService: MapService) {}
 
   ngOnInit(): void {
     this.locs$ = this.store.select(selectFewLocations);
   }
 
-  changeMarkerStyle(marker: NgmbMarker) {
-    console.log(
-      (marker.marker?.getElement().childNodes[0] as HTMLElement).classList.add(
-        'new-style'
-      )
-    );
+  changeMarker(marker: NgmbMarker, newMarker: HTMLElement) {
+    this.mapService.changeMarkerElement(marker, newMarker.innerHTML);
   }
 }

@@ -1,0 +1,14 @@
+<ngmb-map [center]="[-96,30]" [zoom]="4"
+    [style]="'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ'">
+
+
+    <ngmb-marker #myMarker [lngLat]="[-96,30]" color="#ff0000" [zoomAmount]="7">
+    </ngmb-marker>
+
+    <ngmb-popup [marker]="myMarker">
+        <h2>Marker Popup</h2>
+        <p>{{description}}</p>
+        <p>Marker Location:<b>{{myMarker.lngLat.toString()}}</b></p>
+    </ngmb-popup>
+
+</ngmb-map>

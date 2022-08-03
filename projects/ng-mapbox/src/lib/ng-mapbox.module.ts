@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { MapComponent } from './map/map.component';
-import { ngmbFeatureKey, ngmbReducer } from './state/ngmb.reducers';
+import { ngmbFeatureKey, ngmbReducer } from './store/ngmb.reducers';
 import { MarkerComponent } from './marker/marker.component';
-import { DraggableDirective } from './directives/draggable.directive';
 import { LayersComponent } from './layers/layers.component';
 import { SourcesComponent } from './sources/sources.component';
 import { PopupComponent } from './popup/popup.component';
@@ -11,7 +10,6 @@ import { PopupComponent } from './popup/popup.component';
   declarations: [
     MapComponent,
     MarkerComponent,
-    DraggableDirective,
     LayersComponent,
     SourcesComponent,
     PopupComponent,

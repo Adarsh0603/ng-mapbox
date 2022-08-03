@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { LngLatLike, PointLike, Popup, PopupOptions } from 'maplibre-gl';
+import { LngLatLike, Popup, PopupOptions } from 'maplibre-gl';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
 import { MarkerComponent } from '../marker/marker.component';
@@ -27,10 +27,9 @@ export class PopupComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() focusAfterOpen?: PopupOptions['focusAfterOpen'];
   @Input() anchor?: PopupOptions['anchor'];
   @Input() className?: PopupOptions['className'];
-  @Input() maxWidth?: PopupOptions['maxWidth'];
   @Input() lngLat?: LngLatLike;
   @Input() marker?: MarkerComponent;
-  @Input() offset?: number | PointLike | { [anchor: string]: [number, number] };
+  @Input() forLayer: boolean = false;
 
   @Output() popupClose = new EventEmitter<void>();
   @Output() popupOpen = new EventEmitter<void>();
@@ -44,6 +43,7 @@ export class PopupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.popupOptions = {
+      lngLat: this.lngLat,
       html: this.popupHtml.nativeElement,
       markerComponent: this.marker,
       options: {
@@ -53,7 +53,6 @@ export class PopupComponent implements OnInit, AfterViewInit, OnDestroy {
         focusAfterOpen: this.focusAfterOpen,
         anchor: this.anchor,
         className: this.className,
-        maxWidth: this.maxWidth,
       },
       events: {
         popupOpen: this.popupOpen,
@@ -61,13 +60,15 @@ export class PopupComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     };
   }
+
   ngAfterViewInit(): void {
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-
+      if (this.forLayer) return;
       this.popup = this.mapService.createPopup(this.popupOptions!);
     });
   }
+
   ngOnDestroy(): void {
     if (this.marker) this.mapService.removePopup(this.marker!);
     this.popup = undefined;

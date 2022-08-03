@@ -11,7 +11,6 @@ import { selectGeoJson } from '../store/demo.selectors';
 })
 export class CreateLayerComponent implements OnInit {
   geoJson$!: Observable<any>;
-  layerType: any = 'fill';
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {

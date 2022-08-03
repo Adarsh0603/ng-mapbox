@@ -5,9 +5,11 @@ import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.
 import { CreateLayerComponent } from './demos/create-layer/create-layer.component';
 import { CustomMarkerComponent } from './demos/custom-marker/custom-marker.component';
 import { DisplaymapComponent } from './demos/displaymap.component';
+import { LayerInteractionComponent } from './demos/layer-interaction/layer-interaction.component';
 import { LoadPinsComponent } from './demos/load-pins/load-pins.component';
 import { LocateUserComponent } from './demos/locate-user/locate-user.component';
 import { ShowControlsComponent } from './demos/show-controls/show-controls.component';
+import { ShowPopupsComponent } from './demos/show-popups/show-popups.component';
 import { SpecificPinComponent } from './demos/specific-pin/specific-pin.component';
 
 const routes: Routes = [
@@ -24,6 +26,8 @@ const routes: Routes = [
   { path: 'custom-marker', component: CustomMarkerComponent },
   { path: 'change-on-click', component: ChangeOnClickComponent },
   { path: 'create-layer', component: CreateLayerComponent },
+  { path: 'layer-interaction', component: LayerInteractionComponent },
+  { path: 'show-popup', component: ShowPopupsComponent },
 ];
 
 @NgModule({

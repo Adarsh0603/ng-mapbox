@@ -1,14 +1,13 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import {
-  CircleStyleLayer,
-  FillExtrusionStyleLayer,
-  FillStyleLayer,
-  HeatmapStyleLayer,
-  HillshadeStyleLayer,
-  LineStyleLayer,
-  SymbolStyleLayer,
-  TypedStyleLayer,
-} from 'maplibre-gl';
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
+import { MapLayerMouseEvent } from 'maplibre-gl';
+
 import { Subscription } from 'rxjs';
 import { MapService } from '../map/map.service';
 import { NgmbLayerOptions } from '../types/ngmb.types';
@@ -28,6 +27,9 @@ export class LayersComponent implements AfterViewInit, OnDestroy {
   @Input('layout') layout: NgmbLayerOptions['layout'] = null;
   @Input('paint') paint?: NgmbLayerOptions['paint'];
 
+  @Output('onLayerClick') onLayerClick = new EventEmitter<MapLayerMouseEvent>();
+  @Output('onLayerHover') onLayerHover = new EventEmitter<MapLayerMouseEvent>();
+
   sub!: Subscription;
 
   ngAfterViewInit(): void {
@@ -40,6 +42,10 @@ export class LayersComponent implements AfterViewInit, OnDestroy {
         source: this.source,
         layout: this.layout,
         paint: this.paint,
+        events: {
+          onLayerClick: this.onLayerClick,
+          onLayerHover: this.onLayerHover,
+        },
       });
     });
   }

@@ -15,8 +15,8 @@ import {
 } from 'maplibre-gl';
 import { MarkerComponent } from '../marker/marker.component';
 import { map, Observable } from 'rxjs';
-import * as NgmbActions from '../state/ngmb.actions';
-import { selectAllLayers } from '../state/ngmb.selectors';
+import * as NgmbActions from '../store/ngmb.actions';
+import { selectAllLayers } from '../store/ngmb.selectors';
 import {
   NgmbMapControls,
   NgmbMarkerOptions,
@@ -75,17 +75,14 @@ export class MapService {
   createMarker(options: NgmbMarkerOptions) {
     this.errorHandler.checkMarkerParams(options);
 
-    var mapOptions = options.mapOptions;
+    var markerOptions = options.markerOptions;
 
-    var marker = new Marker(mapOptions)
-      .setLngLat(mapOptions.lngLat)
+    var marker = new Marker(markerOptions)
+      .setLngLat(markerOptions.lngLat)
       .addTo(this.map);
-
     this.markers.push(marker);
-
     this.bounds.extend(marker.getLngLat());
-
-    this.showAllPins();
+    if (options.zoomToFit) this.showAllPins();
 
     return marker;
   }
@@ -106,8 +103,10 @@ export class MapService {
   createLayer(layerOptions: NgmbLayerOptions) {
     this.errorHandler.checkLayerParams(layerOptions);
     const { id, type, layout, paint, source } = layerOptions;
+
     this.map.on('load', () => {
       if (this.map.getLayer(id!)) return;
+
       this.map.addLayer({
         id: id!,
         type: type!,
@@ -115,8 +114,25 @@ export class MapService {
         layout: layout ? layout : {},
         paint: paint,
       });
+      this.handleLayerEvents(id!, layerOptions.events);
       this.store.dispatch(NgmbActions.layerAdded({ id: id! }));
     });
+  }
+  private handleLayerEvents(
+    id: string,
+    layerEvents: NgmbLayerOptions['events']
+  ) {
+    if (layerEvents?.onLayerClick) {
+      this.map.on('click', id!, (e) => {
+        console.log('clicked');
+        layerEvents.onLayerClick.emit(e);
+      });
+    }
+    if (layerEvents?.onLayerHover) {
+      this.map.on('mousemove', id!, (e) => {
+        layerEvents.onLayerHover.emit(e);
+      });
+    }
   }
 
   createPopup(popupOptions: NgmbPopupOptions) {
@@ -138,6 +154,12 @@ export class MapService {
     return popup;
   }
 
+  // Change Marker Element on user-selection
+  changeMarkerElement(marker: NgmbMarker, newHtml: string) {
+    marker.marker!.getElement().innerHTML = newHtml;
+  }
+
+  //Animate movement to specific pin
   flyTo(ngmbMarker: NgmbMarker, zoomAmount: number) {
     this.map.flyTo({
       center: ngmbMarker.marker!.getLngLat(),
@@ -163,6 +185,7 @@ export class MapService {
     this.store.dispatch(NgmbActions.mapCleared());
   }
 
+  // Detach popup from marker
   removePopup(marker: MarkerComponent) {
     if (marker) marker.ngmbMarker?.marker?.setPopup(undefined);
   }
@@ -171,6 +194,8 @@ export class MapService {
     this.markers.forEach((marker) => marker.remove());
     this.markers = [];
   }
+
+  // Remove all layers from the map.
   removeLayers() {
     this.store.select(selectAllLayers).pipe(
       map((values) => {

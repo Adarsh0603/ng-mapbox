@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MapService } from 'ng-mapbox';
 import { Observable } from 'rxjs';
 import { AppState } from '../store/demo.reducer';
 import { selectFewLocations } from '../store/demo.selectors';

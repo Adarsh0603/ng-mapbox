@@ -1,6 +1,7 @@
 <div id="main">
     <div id="sidenav">
-        <div class="navitem" style="background-color:#ECB390;color:white;font-weight: bold;">NG-MAPBOX</div>
+        <button class="navitem" style="cursor:default;background-color:#ECB390;color:white;font-weight: bold;"
+            disabled>NG-MAPBOX</button>
         <button class="navitem" *ngFor="let route of routes" [routerLink]="route.route"
             [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">{{route.text}}</button>
     </div>

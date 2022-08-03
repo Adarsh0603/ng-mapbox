@@ -7,6 +7,7 @@ import {
   HillshadeStyleLayer,
   LineStyleLayer,
   LngLatLike,
+  MapLayerMouseEvent,
   Marker,
   MarkerOptions,
   Popup,
@@ -14,10 +15,11 @@ import {
   SymbolStyleLayer,
   TypedStyleLayer,
 } from 'maplibre-gl';
+import { PopupComponent } from '../popup/popup.component';
 import { MarkerComponent } from '../marker/marker.component';
 
 export interface NgmbMarkerOptions {
-  mapOptions: {
+  markerOptions: {
     draggable?: MarkerOptions['draggable'];
     color?: MarkerOptions['color'];
     clickTolerance?: MarkerOptions['clickTolerance'];
@@ -25,6 +27,7 @@ export interface NgmbMarkerOptions {
     lngLat: LngLatLike;
     element?: HTMLElement;
   };
+  zoomToFit: boolean;
 }
 
 export interface NgmbMapControls {
@@ -44,7 +47,7 @@ export interface NgmbPopup {
 }
 
 export interface NgmbPopupOptions {
-  markerComponent?: MarkerComponent;
+  markerComponent?: MarkerComponent | null;
   lngLat?: LngLatLike;
   options: PopupOptions;
   events?: {
@@ -81,6 +84,10 @@ export interface NgmbLayerOptions {
     | HillshadeStyleLayer['layout']
     | any;
   paint: any;
+  events?: {
+    onLayerClick: EventEmitter<MapLayerMouseEvent>;
+    onLayerHover: EventEmitter<MapLayerMouseEvent>;
+  };
 }
 
 export interface NgmbSourceOptions {

@@ -14,6 +14,8 @@ import { SpecificPinComponent } from './demos/specific-pin/specific-pin.componen
 import { CustomMarkerComponent } from './demos/custom-marker/custom-marker.component';
 import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.component';
 import { CreateLayerComponent } from './demos/create-layer/create-layer.component';
+import { ShowPopupsComponent } from './demos/show-popups/show-popups.component';
+import { LayerInteractionComponent } from './demos/layer-interaction/layer-interaction.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +28,8 @@ import { CreateLayerComponent } from './demos/create-layer/create-layer.componen
     CustomMarkerComponent,
     ChangeOnClickComponent,
     CreateLayerComponent,
+    ShowPopupsComponent,
+    LayerInteractionComponent,
   ],
   imports: [
     BrowserModule,

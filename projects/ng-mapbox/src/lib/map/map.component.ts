@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MapOptions } from 'maplibre-gl';
-import { selectMapGenerated } from '../state/ngmb.selectors';
+import { selectMapGenerated } from '../store/ngmb.selectors';
 import { NgmbMapControls } from '../types/ngmb.types';
 import { MapService } from './map.service';
 

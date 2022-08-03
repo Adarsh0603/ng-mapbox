@@ -18,6 +18,10 @@ export class AppComponent implements OnInit {
     { route: '/custom-marker', text: 'Custom Marker' },
     { route: '/change-on-click', text: 'Change/Replace Pin on Click' },
     { route: '/create-layer', text: 'Create Layer' },
+    { route: '/layer-interaction', text: 'Layer Interactions' },
+
+    { route: '/show-popup', text: 'Show Popups' },
+
     { route: '/locate-user', text: 'Locate User' },
     { route: '/show-controls', text: 'Show Map Controls' },
   ];

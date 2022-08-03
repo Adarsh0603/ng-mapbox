@@ -26,7 +26,7 @@ export class NgmbErrorHandler {
   }
 
   checkMarkerParams(options: NgmbMarkerOptions) {
-    if (!options.mapOptions.lngLat) {
+    if (!options.markerOptions.lngLat) {
       throw new Error('lngLat should be supplied with a marker');
     }
   }
@@ -35,6 +35,11 @@ export class NgmbErrorHandler {
     if (!popupOptions.markerComponent && !popupOptions.lngLat) {
       throw new Error(
         'A marker component or lngLat should be supplied with a popup.'
+      );
+    }
+    if (popupOptions.markerComponent && popupOptions.lngLat) {
+      throw new Error(
+        'Both marker component and lngLat cannot be supplied together with a popup.'
       );
     }
   }

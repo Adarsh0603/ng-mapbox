@@ -20,13 +20,12 @@ import { NgmbMarkerOptions, NgmbMarker } from '../types/ngmb.types';
   styleUrls: ['./marker.component.css'],
 })
 export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input('draggable') draggable?: MarkerOptions['draggable'];
   @Input('color') color?: MarkerOptions['color'];
   @Input('anchor') anchor?: MarkerOptions['anchor'];
   @Input('clickTolerance') clickTolerance?: MarkerOptions['clickTolerance'];
   @Input('lngLat') lngLat!: LngLatLike;
-  @Input('zoomOnClick') zoomOnClick?: boolean = false;
-  @Input('zoomAmount') zoomAmount?: number;
+  @Input('zoomOnClick') zoomOnClick: boolean = false;
+  @Input('zoomAmount') zoomAmount: number = 0;
   @Input('zoomToFit') zoomToFit: boolean = false;
 
   @ViewChild('customMarker', { static: true })
@@ -44,13 +43,17 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.options = {
       markerOptions: {
-        draggable: this.draggable,
         color: this.color,
         anchor: this.anchor,
         clickTolerance: this.clickTolerance,
         lngLat: this.lngLat,
       },
+      zoomAmount: this.zoomAmount,
       zoomToFit: this.zoomToFit,
+      zoomOnClick: this.zoomOnClick,
+      events: {
+        onClick: this.onClick,
+      },
     };
     if (this.customMarkerEl?.nativeElement.innerHTML != '') {
       this.options.markerOptions.element = this.customMarkerEl?.nativeElement;
@@ -64,13 +67,8 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      this.ngmbMarker!.marker = this.mapService.createMarker(this.options);
 
-      this.ngmbMarker!.marker.getElement().addEventListener('click', () => {
-        this.onClick.emit(this.ngmbMarker);
-        if (this.zoomOnClick)
-          this.mapService.zoomToPin(this.ngmbMarker!, this.zoomAmount!!);
-      });
+      this.ngmbMarker!.marker = this.mapService.createMarker(this.options);
     });
   }
   ngOnDestroy(): void {

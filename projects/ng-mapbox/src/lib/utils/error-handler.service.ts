@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MapOptions } from 'maplibre-gl';
 import { NgmbMarkerOptions } from '../types/ngmb.types';
 import {
   NgmbLayerOptions,
@@ -12,6 +13,10 @@ import {
 export class NgmbErrorHandler {
   constructor() {}
 
+  checkMapParams(mapOptions: MapOptions) {
+    if (!mapOptions.style)
+      throw new Error('A map style should be passed along with the map.');
+  }
   checkLayerParams(layerOptions: NgmbLayerOptions) {
     if (
       !layerOptions.id ||

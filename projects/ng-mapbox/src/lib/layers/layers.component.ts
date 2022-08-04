@@ -35,7 +35,6 @@ export class LayersComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      console.log(this.id, this.type, this.source, this.layout, this.paint);
       this.mapService.createLayer({
         id: this.id,
         type: this.type,

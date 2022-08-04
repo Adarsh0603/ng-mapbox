@@ -19,14 +19,18 @@ import { MarkerComponent } from '../marker/marker.component';
 
 export interface NgmbMarkerOptions {
   markerOptions: {
-    draggable?: MarkerOptions['draggable'];
     color?: MarkerOptions['color'];
     clickTolerance?: MarkerOptions['clickTolerance'];
     anchor?: MarkerOptions['anchor'];
     lngLat: LngLatLike;
     element?: HTMLElement;
   };
+  zoomAmount: number;
   zoomToFit: boolean;
+  zoomOnClick: boolean;
+  events: {
+    onClick: EventEmitter<NgmbMarker>;
+  };
 }
 
 export interface NgmbMapControls {

@@ -29,7 +29,6 @@ export class PopupComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() className?: PopupOptions['className'];
   @Input() lngLat?: LngLatLike;
   @Input() marker?: MarkerComponent;
-  @Input() forLayer: boolean = false;
 
   @Output() popupClose = new EventEmitter<void>();
   @Output() popupOpen = new EventEmitter<void>();
@@ -64,7 +63,6 @@ export class PopupComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      if (this.forLayer) return;
       this.popup = this.mapService.createPopup(this.popupOptions!);
     });
   }

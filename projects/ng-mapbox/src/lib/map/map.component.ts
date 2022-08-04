@@ -32,7 +32,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   mapOptions!: MapOptions;
   ngMapControls!: NgmbMapControls;
-  generated: boolean = false;
 
   constructor(private mapService: MapService, private store: Store) {}
 

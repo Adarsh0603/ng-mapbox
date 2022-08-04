@@ -8,7 +8,7 @@ import { NgmbSourceOptions } from '../types/ngmb.types';
   templateUrl: './sources.component.html',
   styleUrls: ['./sources.component.css'],
 })
-export class SourcesComponent implements OnInit, AfterViewInit {
+export class SourcesComponent implements AfterViewInit {
   @Input('id') id: NgmbSourceOptions['id'] = null;
   @Input('type') type: NgmbSourceOptions['type'] = null;
 
@@ -20,14 +20,7 @@ export class SourcesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.sub = this.mapService.mapGenerated$.subscribe((res) => {
       if (!res) return;
-      this.options = { id: this.id, type: this.type, data: this.data };
-      try {
-        this.mapService.createSource(this.options);
-      } catch (err) {
-        throw err;
-      }
+      this.mapService.createSource(this.options);
     });
   }
-
-  ngOnInit(): void {}
 }

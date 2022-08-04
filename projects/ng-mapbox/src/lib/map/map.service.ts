@@ -39,6 +39,7 @@ export class MapService {
   constructor(private store: Store, private errorHandler: NgmbErrorHandler) {}
 
   generateMap(mapOptions: MapOptions, ngMapControls: NgmbMapControls) {
+    this.errorHandler.checkMapParams(mapOptions);
     this.map = new Map(mapOptions);
     this.bounds = new LngLatBounds();
     this.store.dispatch(NgmbActions.mapGenerated());
@@ -80,11 +81,20 @@ export class MapService {
     var marker = new Marker(markerOptions)
       .setLngLat(markerOptions.lngLat)
       .addTo(this.map);
+
+    this.handleMarkerEvents(marker, options);
     this.markers.push(marker);
     this.bounds.extend(marker.getLngLat());
     if (options.zoomToFit) this.showAllPins();
 
     return marker;
+  }
+
+  private handleMarkerEvents(marker: Marker, options: NgmbMarkerOptions) {
+    marker.getElement().addEventListener('click', () => {
+      options.events.onClick.emit({ marker });
+      if (options.zoomOnClick) this.zoomToPin({ marker }, options.zoomAmount);
+    });
   }
 
   createSource(sourceOptions: NgmbSourceOptions) {
@@ -125,7 +135,6 @@ export class MapService {
   ) {
     if (layerEvents?.onLayerClick) {
       this.map.on('click', id!, (e) => {
-        console.log('clicked');
         layerEvents.onLayerClick.emit(e);
       });
     }
@@ -138,6 +147,7 @@ export class MapService {
 
   createPopup(popupOptions: NgmbPopupOptions) {
     this.errorHandler.checkPopupParams(popupOptions);
+
     var popup = new Popup(popupOptions.options).setHTML(
       popupOptions.html?.innerHTML!
     );

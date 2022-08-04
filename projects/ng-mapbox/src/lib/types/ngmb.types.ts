@@ -15,7 +15,6 @@ import {
   SymbolStyleLayer,
   TypedStyleLayer,
 } from 'maplibre-gl';
-import { PopupComponent } from '../popup/popup.component';
 import { MarkerComponent } from '../marker/marker.component';
 
 export interface NgmbMarkerOptions {

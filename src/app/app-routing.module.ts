@@ -13,15 +13,14 @@ import { SimpleMapComponent } from './demos/simple-map/simple-map.component';
 import { SpecificPinComponent } from './demos/specific-pin/specific-pin.component';
 
 const routes: Routes = [
-  { path: '', component: SimpleMapComponent, pathMatch: 'full' },
-  { path: 'loadpins', component: LoadPinsComponent, pathMatch: 'full' },
-  { path: 'locate-user', component: LocateUserComponent, pathMatch: 'full' },
+  { path: '', component: SimpleMapComponent },
+  { path: 'loadpins', component: LoadPinsComponent },
+  { path: 'locate-user', component: LocateUserComponent },
   {
     path: 'show-controls',
     component: ShowControlsComponent,
-    pathMatch: 'full',
   },
-  { path: 'auto-zoom', component: AutoZoomComponent, pathMatch: 'full' },
+  { path: 'auto-zoom', component: AutoZoomComponent },
   { path: 'specific-pin', component: SpecificPinComponent },
   { path: 'custom-marker', component: CustomMarkerComponent },
   { path: 'change-on-click', component: ChangeOnClickComponent },

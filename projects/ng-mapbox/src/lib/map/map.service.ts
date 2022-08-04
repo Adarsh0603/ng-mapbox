@@ -118,6 +118,7 @@ export class MapService {
       this.store.dispatch(NgmbActions.layerAdded({ id: id! }));
     });
   }
+
   private handleLayerEvents(
     id: string,
     layerEvents: NgmbLayerOptions['events']
@@ -146,10 +147,6 @@ export class MapService {
       marker?.setPopup(popup);
     } else if (popupOptions.lngLat) {
       popup.setLngLat(popupOptions.lngLat!).addTo(this.map);
-    } else {
-      throw Error(
-        'Either a marker component or lngLat should be supplied to a popup.'
-      );
     }
     return popup;
   }
@@ -160,7 +157,7 @@ export class MapService {
   }
 
   //Animate movement to specific pin
-  flyTo(ngmbMarker: NgmbMarker, zoomAmount: number) {
+  private flyTo(ngmbMarker: NgmbMarker, zoomAmount: number) {
     this.map.flyTo({
       center: ngmbMarker.marker!.getLngLat(),
       zoom: zoomAmount ? zoomAmount : this.map.getZoom() + 3,
@@ -190,13 +187,13 @@ export class MapService {
     if (marker) marker.ngmbMarker?.marker?.setPopup(undefined);
   }
 
-  removeMarkers() {
+  private removeMarkers() {
     this.markers.forEach((marker) => marker.remove());
     this.markers = [];
   }
 
   // Remove all layers from the map.
-  removeLayers() {
+  private removeLayers() {
     this.store.select(selectAllLayers).pipe(
       map((values) => {
         values.forEach((value) => this.map.removeLayer(value));

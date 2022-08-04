@@ -69,7 +69,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ngmbMarker!.marker.getElement().addEventListener('click', () => {
         this.onClick.emit(this.ngmbMarker);
         if (this.zoomOnClick)
-          this.mapService.flyTo(this.ngmbMarker!, this.zoomAmount!!);
+          this.mapService.zoomToPin(this.ngmbMarker!, this.zoomAmount!!);
       });
     });
   }

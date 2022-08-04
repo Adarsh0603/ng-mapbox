@@ -4,16 +4,16 @@ import { AutoZoomComponent } from './demos/auto-zoom/auto-zoom.component';
 import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.component';
 import { CreateLayerComponent } from './demos/create-layer/create-layer.component';
 import { CustomMarkerComponent } from './demos/custom-marker/custom-marker.component';
-import { DisplaymapComponent } from './demos/displaymap.component';
 import { LayerInteractionComponent } from './demos/layer-interaction/layer-interaction.component';
 import { LoadPinsComponent } from './demos/load-pins/load-pins.component';
 import { LocateUserComponent } from './demos/locate-user/locate-user.component';
 import { ShowControlsComponent } from './demos/show-controls/show-controls.component';
 import { ShowPopupsComponent } from './demos/show-popups/show-popups.component';
+import { SimpleMapComponent } from './demos/simple-map/simple-map.component';
 import { SpecificPinComponent } from './demos/specific-pin/specific-pin.component';
 
 const routes: Routes = [
-  { path: '', component: DisplaymapComponent, pathMatch: 'full' },
+  { path: '', component: SimpleMapComponent, pathMatch: 'full' },
   { path: 'loadpins', component: LoadPinsComponent, pathMatch: 'full' },
   { path: 'locate-user', component: LocateUserComponent, pathMatch: 'full' },
   {

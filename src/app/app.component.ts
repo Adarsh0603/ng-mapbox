@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {}
 
   routes: any[] = [
-    { route: '', text: 'Display Map' },
+    { route: '', text: 'Simple Map' },
     { route: '/loadpins', text: 'Load Pins' },
     { route: '/specific-pin', text: 'Zoom To Specific Pin' },
 

@@ -4,7 +4,6 @@ import { StoreModule } from '@ngrx/store';
 import { NgMapboxModule } from 'ng-mapbox';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DisplaymapComponent } from './demos/displaymap.component';
 import { LoadPinsComponent } from './demos/load-pins/load-pins.component';
 import { LocateUserComponent } from './demos/locate-user/locate-user.component';
 import { ShowControlsComponent } from './demos/show-controls/show-controls.component';
@@ -16,10 +15,10 @@ import { ChangeOnClickComponent } from './demos/change-on-click/change-on-click.
 import { CreateLayerComponent } from './demos/create-layer/create-layer.component';
 import { ShowPopupsComponent } from './demos/show-popups/show-popups.component';
 import { LayerInteractionComponent } from './demos/layer-interaction/layer-interaction.component';
+import { SimpleMapComponent } from './demos/simple-map/simple-map.component';
 @NgModule({
   declarations: [
     AppComponent,
-    DisplaymapComponent,
     LoadPinsComponent,
     LocateUserComponent,
     ShowControlsComponent,
@@ -30,6 +29,7 @@ import { LayerInteractionComponent } from './demos/layer-interaction/layer-inter
     CreateLayerComponent,
     ShowPopupsComponent,
     LayerInteractionComponent,
+    SimpleMapComponent,
   ],
   imports: [
     BrowserModule,
